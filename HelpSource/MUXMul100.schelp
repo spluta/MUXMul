@@ -1,0 +1,31 @@
+TITLE:: MUXMul100
+summary:: a 10 channel MultiPlexer Multiplier
+categories:: UGens>Multichannel
+related:: MUXMul10
+
+DESCRIPTION::
+A 100 channel MultiPlexer Multiplier. By default outputs a 100 channel array of 0s. Receives an input. If the input falls between 0 and 100, it will output all 0s except a 1 at the index of the floor of the input parameter. If the input value is outside the range of 0 and 100 the ugen will output all zeroes.
+
+CLASSMETHODS::
+
+METHOD::ar
+
+ARGUMENT::which
+At which index of the 100 channel output array to place a 1. The algorithm uses the floor of the input. If the input value is outside the range of 0 and 100, the ugen will output all zeroes.
+
+EXAMPLES::
+
+code::
+{MUXMul100.ar(MouseX.kr(0,100-0.001)).poll; nil}.play
+
+//make a 600 way MUXMul out of 6, 100 way muxes
+({
+	var size = 600;
+	var index = MouseX.kr(0,size-0.001);
+	a = Array.fill(size/100, {|i| MUXMul100.kr(index-(100*i))}).flat;
+	a.poll;
+	nil
+}.play
+)
+
+::
